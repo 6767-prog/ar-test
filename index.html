@@ -23,11 +23,10 @@ video {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 200px;
+  width: 60%;
   transform: translate(-50%, -50%);
   touch-action: none;
   z-index: 10;
-  border: 2px solid red; /* pour voir si ça marche */
 }
 }
 </style>
@@ -37,58 +36,47 @@ video {
 
 <video id="camera" autoplay playsinline></video>
 
-<img id="overlay" src="bonjpur.png">
+<img id="overlay" src="Capture d'écran 2026-03-03 142043.png">
 
 <script>
 const video = document.getElementById("camera");
 
-// activer caméra arrière
+// caméra
 navigator.mediaDevices.getUserMedia({
   video: { facingMode: "environment" }
 })
 .then(stream => {
   video.srcObject = stream;
+  video.play();
 });
 
-// zoom + déplacement
+// image
 const overlay = document.getElementById("overlay");
 
-let scale = 1;
 let posX = 0;
 let posY = 0;
-
-overlay.addEventListener("wheel", (e) => {
-  e.preventDefault();
-  scale += e.deltaY * -0.001;
-  scale = Math.min(Math.max(.5, scale), 3);
-  update();
-});
-
 let isDragging = false;
-let startX, startY;
 
-overlay.addEventListener("mousedown", (e) => {
+overlay.addEventListener("touchstart", () => {
   isDragging = true;
-  startX = e.clientX - posX;
-  startY = e.clientY - posY;
 });
 
-window.addEventListener("mousemove", (e) => {
+overlay.addEventListener("touchmove", (e) => {
   if (!isDragging) return;
-  posX = e.clientX - startX;
-  posY = e.clientY - startY;
-  update();
+
+  posX += 2;
+  posY += 2;
+
+  overlay.style.transform =
+    `translate(-50%, -50%) translate(${posX}px, ${posY}px)`;
 });
 
-window.addEventListener("mouseup", () => {
+overlay.addEventListener("touchend", () => {
   isDragging = false;
 });
-
-function update() {
-  overlay.style.transform =
-    `translate(-50%, -50%) translate(${posX}px, ${posY}px) scale(${scale})`;
-}
 </script>
+
+
 
 </body>
 </html>
