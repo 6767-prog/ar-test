@@ -26,6 +26,9 @@ video {
   width: 200px;
   transform: translate(-50%, -50%);
   touch-action: none;
+  z-index: 10;
+  border: 2px solid red; /* pour voir si ça marche */
+}
 }
 </style>
 </head>
@@ -34,7 +37,7 @@ video {
 
 <video id="camera" autoplay playsinline></video>
 
-<img id="overlay" src="https://via.placeholder.com/300x200/ff0000/ffffff?text=IMAGE">
+<img id="overlay" src="https://picsum.photos/300/200">
 
 <script>
 const video = document.getElementById("camera");
